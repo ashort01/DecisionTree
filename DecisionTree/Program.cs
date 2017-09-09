@@ -15,9 +15,14 @@ namespace DecisionTree
         static void Main(string[] args)
         {
             var data = ReadData();
+            Console.WriteLine("Building Tree...");
             var t = TreeService.BuildTree(data);
+            Console.WriteLine("Traversing Tree...");
             var str = TreeService.TraverseTree(data[0], t);
             var i = TreeService.DetermineAccuracy(data, t);
+            Console.WriteLine("Our tree was " + i * 100+"% accurate!");
+            Console.WriteLine("Press any key to exit.");
+            Console.ReadKey();
         }
 
         public static List<DNARecord> ReadData()
@@ -38,6 +43,5 @@ namespace DecisionTree
                 return dna;
             }
         }
-
     }
 }
