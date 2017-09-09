@@ -4,3 +4,10 @@ c:\users\austin\documents\visual studio 2015\Projects\DecisionTree\DecisionTree\
 c:\users\austin\documents\visual studio 2015\Projects\DecisionTree\DecisionTree\obj\Debug\DecisionTree.csprojResolveAssemblyReference.cache
 c:\users\austin\documents\visual studio 2015\Projects\DecisionTree\DecisionTree\obj\Debug\DecisionTree.exe
 c:\users\austin\documents\visual studio 2015\Projects\DecisionTree\DecisionTree\obj\Debug\DecisionTree.pdb
+C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\DecisionTree.exe.config
+C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\obj\Debug\DecisionTree.exe
+C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\obj\Debug\DecisionTree.pdb
+C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\DecisionTree.exe
+C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\DecisionTree.pdb
+C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\obj\Debug\DecisionTree.csprojResolveAssemblyReference.cache
+C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\Data\training.csv

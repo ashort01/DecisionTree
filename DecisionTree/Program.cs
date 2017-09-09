@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,10 @@ namespace DecisionTree
 
         public static List<DNARecord> ReadData()
         {
-            using (var reader = new StreamReader("c:\\users\\austin\\documents\\visual studio 2015\\Projects\\DecisionTree\\DecisionTree\\Data\\training.csv"))
+            string projectDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            string fileName = @"Data\training.csv";
+            string path = Path.Combine(projectDirectory, fileName);
+            using (var reader = new StreamReader(path))
             {
                 List<DNARecord> dna = new List<DNARecord>();
                 while (!reader.EndOfStream)
