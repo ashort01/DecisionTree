@@ -16,6 +16,8 @@ namespace DecisionTree
         {
             var data = ReadData();
             var t = TreeService.BuildTree(data);
+            var str = TreeService.TraverseTree(data[0], t);
+            var i = TreeService.DetermineAccuracy(data, t);
         }
 
         public static List<DNARecord> ReadData()
@@ -30,6 +32,7 @@ namespace DecisionTree
                 {
                     var line = reader.ReadLine();
                     var values = line.Split(',');
+                    //parse lines of comma delimited data into DNARecord Objects.
                     dna.Add(new DNARecord { id = values[0], sequence = values[1].ToArray(), classifier = values[2] });
                 }
                 return dna;

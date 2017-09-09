@@ -15,6 +15,8 @@ namespace DecisionTree.Models
 
         public int label { get; set; }
 
-        public ICollection<Node> children { get; set; }
+        public string leafClass { get; set; }
+
+        public List<Node> children { get; set; }
     }
 }

@@ -65,5 +65,15 @@ namespace DecisionTree.Tree
             }
             return false;
         }
+
+        public static string GetClass(List<DNARecord> set)
+        {
+            foreach (var i in Classifiers.values)
+            {
+                var count = set.Where(e => e.classifier == i).Count();
+                if (((double)count / (double)set.Count) >= .9) return i;
+            }
+            return "No Class";
+        }
     }
 }
