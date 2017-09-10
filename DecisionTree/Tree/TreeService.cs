@@ -17,9 +17,19 @@ namespace DecisionTree.Tree
                 node.leafClass = DecisionMath.GetClass(set);
                 return node;
             }
-            var gains = DecisionMath.InformationGains(set);
+            //var gains = DecisionMath.InformationGains(set);
             //Take the maximum information gain
-            var splitIndex = gains.IndexOf(gains.Max());
+            //var splitIndex = gains.IndexOf(gains.Max());
+            var splitIndex = Gini.gini_index(set);
+            if (splitIndex < 1)
+            {
+                var gains = DecisionMath.InformationGains(set);
+                splitIndex = gains.IndexOf(gains.Max());
+            }
+            else
+            {
+                Console.Write("gini\n");
+            }
             node.label = splitIndex;
             foreach (var i in AttributeValues.values)
             {

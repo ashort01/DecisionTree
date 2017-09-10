@@ -11,3 +11,11 @@ C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\DecisionTree.ex
 C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\DecisionTree.pdb
 C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\obj\Debug\DecisionTree.csprojResolveAssemblyReference.cache
 C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\Data\training.csv
+C:\Users\Danny\Documents\GitHub\DecisionTree\DecisionTree\bin\Debug\Data\training.csv
+C:\Users\Danny\Documents\GitHub\DecisionTree\DecisionTree\bin\Debug\DecisionTree.exe.config
+C:\Users\Danny\Documents\GitHub\DecisionTree\DecisionTree\bin\Debug\DecisionTree.exe
+C:\Users\Danny\Documents\GitHub\DecisionTree\DecisionTree\bin\Debug\DecisionTree.pdb
+C:\Users\Danny\Documents\GitHub\DecisionTree\DecisionTree\obj\Debug\DecisionTree.csprojResolveAssemblyReference.cache
+C:\Users\Danny\Documents\GitHub\DecisionTree\DecisionTree\obj\Debug\DecisionTree.csproj.CoreCompileInputs.cache
+C:\Users\Danny\Documents\GitHub\DecisionTree\DecisionTree\obj\Debug\DecisionTree.exe
+C:\Users\Danny\Documents\GitHub\DecisionTree\DecisionTree\obj\Debug\DecisionTree.pdb
