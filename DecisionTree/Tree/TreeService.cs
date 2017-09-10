@@ -17,9 +17,9 @@ namespace DecisionTree.Tree
                 node.leafClass = DecisionMath.GetClass(set);
                 return node;
             }
-            //var gains = DecisionMath.InformationGains(set);
-            //Take the maximum information gain
-            //var splitIndex = gains.IndexOf(gains.Max());
+
+            //try to calucate the split index using gini
+            //if gini returns 0, use information gain instead
             var splitIndex = Gini.gini_index(set);
             if (splitIndex < 1)
             {
@@ -28,6 +28,7 @@ namespace DecisionTree.Tree
             }
             else
             {
+                //DEBUG - just to see how many times gini works
                 Console.Write("gini\n");
             }
             node.label = splitIndex;
