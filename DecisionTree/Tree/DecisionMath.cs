@@ -62,7 +62,7 @@ namespace DecisionTree.Tree
             {
                 var count = set.Where(e => e.classifier == i).Count();
                 var ratio = ((double)count / (double)set.Count);
-                if (ratio == 1)
+                if (ratio >= .9)
                 {
                     return true;
                 }
