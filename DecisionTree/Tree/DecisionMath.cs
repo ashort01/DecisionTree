@@ -101,7 +101,6 @@ namespace DecisionTree.Tree
                         criticalValue += (Math.Pow(actual_number - expected_number, 2)) / expected_number;
                 }
             }
-            Console.WriteLine("Critical Val: " + criticalValue);
             return RejectNull(criticalValue, degreesOfFreedom, alpha);
         }
 
@@ -114,13 +113,11 @@ namespace DecisionTree.Tree
                 if (Math.Abs(criticalValue) > pvalue)
                 {
                     //reject the null hypothesis, the split is significant
-                    Console.WriteLine("Split");
                     return true;
                 }
                 else
                 {
                     //accept the null hypoth, the change in data is just by chance.
-                    Console.WriteLine("Don't Split");
                     return false;
                 }
             }
