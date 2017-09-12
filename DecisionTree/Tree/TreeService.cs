@@ -32,6 +32,7 @@ namespace DecisionTree.Tree
                     }
                 }
             }
+            node.leafClass = DecisionMath.GetClass(set);
             return node;
         }
 
