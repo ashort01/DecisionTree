@@ -9,7 +9,7 @@ namespace DecisionTree.Tree
 {
     public class TreeService
     {
-        public static Node BuildTree(List<DNARecord> set)
+        public static Node BuildTree(List<DNARecord> set, double alpha)
         {
             Node node = new Node();
             if(DecisionMath.IsPure(set))
@@ -21,12 +21,15 @@ namespace DecisionTree.Tree
             //Take the maximum information gain
             var splitIndex = gains.IndexOf(gains.Max());
             node.label = splitIndex;
-            foreach (var i in AttributeValues.values)
+            if(DecisionMath.ShouldSplitChiSquared(set, splitIndex, alpha))
             {
-                var subset = set.Where(e => e.sequence[splitIndex] == i).ToList();
-                if (subset.Count > 0)
+                foreach (var i in AttributeValues.values)
                 {
-                    node.children.Add(BuildTree(subset));
+                    var subset = set.Where(e => e.sequence[splitIndex] == i).ToList();
+                    if (subset.Count > 0)
+                    {
+                        node.children.Add(BuildTree(subset, alpha));
+                    }
                 }
             }
             return node;
@@ -60,7 +63,8 @@ namespace DecisionTree.Tree
             }
             var falseCount = (decimal)accuracyList.Where(i => i == false).Count();
             var trueCount = (decimal)accuracyList.Where(i => i == true).Count();
-            return 1 - (falseCount / trueCount);
+            var ratio = (trueCount / (trueCount + falseCount));
+            return ratio * 100;
         }
 
         public static bool IsCorrectClassification(DNARecord item, string prediction)

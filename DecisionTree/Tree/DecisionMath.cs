@@ -61,7 +61,11 @@ namespace DecisionTree.Tree
             foreach (var i in Classifiers.values)
             {
                 var count = set.Where(e => e.classifier == i).Count();
-                if (((double)count / (double)set.Count) >= .9) return true;
+                var ratio = ((double)count / (double)set.Count);
+                if (ratio == 1)
+                {
+                    return true;
+                }
             }
             return false;
         }
@@ -71,9 +75,60 @@ namespace DecisionTree.Tree
             foreach (var i in Classifiers.values)
             {
                 var count = set.Where(e => e.classifier == i).Count();
-                if (((double)count / (double)set.Count) >= .9) return i;
+                if (((double)count / (double)set.Count) >= .9)
+                {
+                    return i;
+                }
             }
             return "No Class";
+        }
+
+        public static bool ShouldSplitChiSquared(List<DNARecord> set, int splitIndex, double alpha)
+        {
+            var degreesOfFreedom = (Classifiers.values.Count() - 1) * (AttributeValues.values.Count() - 1);
+            var subsets = new List<List<DNARecord>>();
+            double criticalValue = 0;
+            foreach (var classifier in Classifiers.values)
+            {
+                var count = (double)set.Where(i => i.classifier == classifier).Count();
+                var expected_ratio = count / (double)set.Count();
+                foreach (var i in AttributeValues.values)
+                {
+                    var attribute_set = set.Where(e => e.sequence[splitIndex] == i).ToList();
+                    var expected_number = attribute_set.Count() * expected_ratio;
+                    var actual_number = (double) attribute_set.Where(e => e.classifier == classifier).Count();
+                    if(expected_number != 0)
+                        criticalValue += (Math.Pow(actual_number - expected_number, 2)) / expected_number;
+                }
+            }
+            Console.WriteLine("Critical Val: " + criticalValue);
+            return RejectNull(criticalValue, degreesOfFreedom, alpha);
+        }
+
+        private static bool RejectNull(double criticalValue, int degreesOfFreedom, double alpha)
+        {
+            var tableRow = ChiSquaredData.lookup_table.Where(i => i.DegreesOfFreedom == degreesOfFreedom && i.value == alpha).FirstOrDefault();
+            if (tableRow != null)
+            {
+                var pvalue = tableRow.PValue;
+                if (Math.Abs(criticalValue) > pvalue)
+                {
+                    //reject the null hypothesis, the split is significant
+                    Console.WriteLine("Split");
+                    return true;
+                }
+                else
+                {
+                    //accept the null hypoth, the change in data is just by chance.
+                    Console.WriteLine("Don't Split");
+                    return false;
+                }
+            }
+            else
+            {
+                var ex = new Exception("Could not find the Chi Squared Table entry");
+                throw ex;
+            }
         }
     }
 }
