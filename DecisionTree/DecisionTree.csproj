@@ -50,6 +50,7 @@
     <Compile Include="Models\ChiSquared.cs" />
     <Compile Include="Models\AttributeValues.cs" />
     <Compile Include="Models\Constants.cs" />
+    <Compile Include="Tree\Gini.cs" />
     <Compile Include="Tree\TreeService.cs" />
     <Compile Include="Tree\DecisionMath.cs" />
     <Compile Include="Models\Classifiers.cs" />

@@ -19,8 +19,17 @@ namespace DecisionTree
             {
                 var data = ReadData();
                 var treeService = new TreeService(constants);
-                Console.WriteLine("Building Tree...");
-                var t = treeService.BuildTree(data);
+                var t = new Node();
+                if (constants.DecisionAlgorithm == "information-gain")
+                {
+                    Console.WriteLine("Building tree using information gain...");
+                    t = treeService.BuildTreeInformationGain(data);
+                }
+                else if (constants.DecisionAlgorithm == "gini-index")
+                {
+                    Console.WriteLine("Building tree using gini index...");
+                    t = treeService.BuildTreeGini(data);
+                }
                 Console.WriteLine("Traversing Tree...");
                 var str = treeService.TraverseTree(data[0], t);
                 var i = treeService.DetermineAccuracy(data, t);
