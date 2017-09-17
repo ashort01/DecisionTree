@@ -66,7 +66,7 @@ namespace DecisionTree.Models
             }
             set
             {
-                if(value == "gini-index" || value == "information-gain")
+                if(value == "gini-index" || value == "information-gain" || value == "both")
                 {
                     decisionAlgorithm = value;
                 }
