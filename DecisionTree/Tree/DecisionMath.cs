@@ -72,15 +72,14 @@ namespace DecisionTree.Tree
 
         public static string GetClass(List<DNARecord> set, double acceptanceRatio)
         {
-            foreach (var i in Classifiers.values)
+            List<double> ratios = new List<double>();
+            for(int i = 0; i < Classifiers.values.Count(); i++)
             {
-                var count = set.Where(e => e.classifier == i).Count();
-                if (((double)count / (double)set.Count) >= acceptanceRatio)
-                {
-                    return i;
-                }
+                var count = set.Where(e => e.classifier == Classifiers.values[i]).Count();
+                ratios.Add((double)count / (double)set.Count);
             }
-            return "No Class";
+            //return maximum ratio 
+            return Classifiers.values[ratios.IndexOf(ratios.Max())];
         }
 
         public static bool ShouldSplitChiSquared(List<DNARecord> set, int splitIndex, double alpha)
