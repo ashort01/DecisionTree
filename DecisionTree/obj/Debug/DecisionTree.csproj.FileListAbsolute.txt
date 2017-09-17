@@ -12,3 +12,5 @@ C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\DecisionTree.pd
 C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\obj\Debug\DecisionTree.csprojResolveAssemblyReference.cache
 C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\Data\training.csv
 C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\Data\testing.csv
+C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\CommandLine.dll
+C:\Users\Austin\Source\Repos\DecisionTree\DecisionTree\bin\Debug\CommandLine.xml

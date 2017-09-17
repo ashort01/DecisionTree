@@ -56,13 +56,13 @@ namespace DecisionTree.Tree
         }
 
 
-        public static bool IsPure(List<DNARecord> set)
+        public static bool IsPure(List<DNARecord> set, double acceptanceRatio)
         {
             foreach (var i in Classifiers.values)
             {
                 var count = set.Where(e => e.classifier == i).Count();
                 var ratio = ((double)count / (double)set.Count);
-                if (ratio >= .9)
+                if (ratio >= acceptanceRatio)
                 {
                     return true;
                 }
@@ -70,12 +70,12 @@ namespace DecisionTree.Tree
             return false;
         }
 
-        public static string GetClass(List<DNARecord> set)
+        public static string GetClass(List<DNARecord> set, double acceptanceRatio)
         {
             foreach (var i in Classifiers.values)
             {
                 var count = set.Where(e => e.classifier == i).Count();
-                if (((double)count / (double)set.Count) >= .9)
+                if (((double)count / (double)set.Count) >= acceptanceRatio)
                 {
                     return i;
                 }

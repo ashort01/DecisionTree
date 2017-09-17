@@ -14,36 +14,28 @@ namespace DecisionTree
     {
         static void Main(string[] args)
         {
-            var alpha = ParseArguments(args);
-            var data = ReadData();
-            Console.WriteLine("Building Tree...");
-            var t = TreeService.BuildTree(data, alpha);
-            Console.WriteLine("Traversing Tree...");
-            var str = TreeService.TraverseTree(data[0], t);
-            var i = TreeService.DetermineAccuracy(data, t);
-            Console.WriteLine("Our tree was " + i + "% accurate!");
+            var constants = new Constants();
+            if (CommandLine.Parser.Default.ParseArguments(args, constants))
+            {
+                var data = ReadData();
+                var treeService = new TreeService(constants);
+                Console.WriteLine("Building Tree...");
+                var t = treeService.BuildTree(data);
+                Console.WriteLine("Traversing Tree...");
+                var str = treeService.TraverseTree(data[0], t);
+                var i = treeService.DetermineAccuracy(data, t);
+                Console.WriteLine("Our tree was " + i + "% accurate!");
+            }
+            else
+            {
+                Console.WriteLine("Arguments failed to parse. Program exiting.");
+            }
+
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
         }
 
-        public static double ParseArguments(string [] args)
-        {
-            try
-            {
-                double alpha;
-                if (!Double.TryParse(args[0], out alpha))
-                {
-                    Console.WriteLine("Alpha failed to parse, using alpha = 0.05 as the default.");
-                    return 0.05;
-                }
-                return alpha;
-            }
-            catch(System.IndexOutOfRangeException e)
-            {
-                Console.WriteLine("Alpha not passed as argument, using alpha = 0.05 as the default.");
-                return 0.05;
-            }
-        }
+ 
 
         public static List<DNARecord> ReadData()
         {
