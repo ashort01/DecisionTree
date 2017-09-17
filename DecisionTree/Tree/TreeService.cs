@@ -15,7 +15,8 @@ namespace DecisionTree.Tree
         }
         public Constants constants { get; set; }
 
-        public Node BuildTreeGini (List<DNARecord> set)
+
+        public Node BuildTree(List<DNARecord> set, string treeType)
         {
             Node node = new Node();
             if (DecisionMath.IsPure(set, constants.PurityRatio))
@@ -24,14 +25,28 @@ namespace DecisionTree.Tree
                 return node;
             }
 
-            //try to calucate the split index using gini
-            //if gini returns 0, use information gain instead
-            var splitIndex = Gini.gini_index(set);
-            if (splitIndex < 1)
+            int splitIndex;
+            if (treeType.Equals("both"))
+            {
+                //try to calucate the split index using gini
+                //if gini returns 0, use information gain instead
+                splitIndex = Gini.gini_index(set);
+                if (splitIndex < 1)
+                {
+                    var gains = DecisionMath.InformationGains(set);
+                    splitIndex = gains.IndexOf(gains.Max());
+                }
+            }
+            else if (treeType.Equals("gini-index"))
+            {
+                splitIndex = Gini.gini_index(set);
+            }
+            else
             {
                 var gains = DecisionMath.InformationGains(set);
                 splitIndex = gains.IndexOf(gains.Max());
             }
+            
             node.label = splitIndex;
             if (DecisionMath.ShouldSplitChiSquared(set, splitIndex, constants.Alpha))
             {
@@ -40,35 +55,7 @@ namespace DecisionTree.Tree
                     var subset = set.Where(e => e.sequence[splitIndex] == i).ToList();
                     if (subset.Count > 0)
                     {
-                        node.children.Add(BuildTreeGini(subset));
-                    }
-                }
-            }
-            node.leafClass = DecisionMath.GetClass(set, constants.PurityRatio);
-            return node;
-        }
-
-        public Node BuildTreeInformationGain (List<DNARecord> set)
-        {
-            Node node = new Node();
-            if (DecisionMath.IsPure(set, constants.PurityRatio))
-            {
-                node.leafClass = DecisionMath.GetClass(set, constants.PurityRatio);
-                return node;
-            }
-
-            var gains = DecisionMath.InformationGains(set);
-            var splitIndex = gains.IndexOf(gains.Max());
-
-            node.label = splitIndex;
-            if (DecisionMath.ShouldSplitChiSquared(set, splitIndex, constants.Alpha))
-            {
-                foreach (var i in AttributeValues.values)
-                {
-                    var subset = set.Where(e => e.sequence[splitIndex] == i).ToList();
-                    if (subset.Count > 0)
-                    {
-                        node.children.Add(BuildTreeInformationGain(subset));
+                        node.children.Add(BuildTree(subset, treeType));
                     }
                 }
             }

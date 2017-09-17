@@ -17,23 +17,33 @@ namespace DecisionTree
             var constants = new Constants();
             if (CommandLine.Parser.Default.ParseArguments(args, constants))
             {
-                var data = ReadData();
+                var data = ReadData("training.csv");
                 var treeService = new TreeService(constants);
                 var t = new Node();
-                if (constants.DecisionAlgorithm == "information-gain")
-                {
-                    Console.WriteLine("Building tree using information gain...");
-                    t = treeService.BuildTreeInformationGain(data);
-                }
-                else if (constants.DecisionAlgorithm == "gini-index")
-                {
-                    Console.WriteLine("Building tree using gini index...");
-                    t = treeService.BuildTreeGini(data);
-                }
+                t = treeService.BuildTree(data, constants.DecisionAlgorithm);
+                if (constants.DecisionAlgorithm == "information-gain") Console.WriteLine("Building tree using information gain...");
+                else if (constants.DecisionAlgorithm == "gini-index") Console.WriteLine("Building tree using gini index...");
+                else Console.WriteLine("Building tree with gini and information gain");
+
+                t = treeService.BuildTree(data, constants.DecisionAlgorithm);
+
                 Console.WriteLine("Traversing Tree...");
-                var str = treeService.TraverseTree(data[0], t);
                 var i = treeService.DetermineAccuracy(data, t);
                 Console.WriteLine("Our tree was " + i + "% accurate!");
+
+
+                //run on testing data
+                data = ReadData("testing.csv");
+                int length = data.Count;
+                string[] lines = new string[length+1];
+                lines[0] = "id,class";
+                for (int k = 0; k < length; k++)
+                {
+                    var c = treeService.TraverseTree(data[k], t);
+                    lines[k+1] = data[k].id + "," + c;
+                }
+                System.IO.File.WriteAllLines(@"Data\results.csv", lines);
+
             }
             else
             {
@@ -46,10 +56,10 @@ namespace DecisionTree
 
  
 
-        public static List<DNARecord> ReadData()
+        public static List<DNARecord> ReadData(string csvName)
         {
             string projectDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string fileName = @"Data\training.csv";
+            string fileName = @"Data\" + csvName;
             string path = Path.Combine(projectDirectory, fileName);
             using (var reader = new StreamReader(path))
             {
@@ -59,7 +69,13 @@ namespace DecisionTree
                     var line = reader.ReadLine();
                     var values = line.Split(',');
                     //parse lines of comma delimited data into DNARecord Objects.
-                    dna.Add(new DNARecord { id = values[0], sequence = values[1].ToArray(), classifier = values[2] });
+                    if (values.Length > 2){
+                        dna.Add(new DNARecord { id = values[0], sequence = values[1].ToArray(), classifier = values[2] });
+                    }
+                    else
+                    {
+                        dna.Add(new DNARecord { id = values[0], sequence = values[1].ToArray()});
+                    }
                 }
                 return dna;
             }
