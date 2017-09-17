@@ -20,7 +20,6 @@ namespace DecisionTree
                 var data = ReadData("training.csv");
                 var treeService = new TreeService(constants);
                 var t = new Node();
-                t = treeService.BuildTree(data, constants.DecisionAlgorithm);
                 if (constants.DecisionAlgorithm == "information-gain") Console.WriteLine("Building tree using information gain...");
                 else if (constants.DecisionAlgorithm == "gini-index") Console.WriteLine("Building tree using gini index...");
                 else Console.WriteLine("Building tree with gini and information gain");
