@@ -15,13 +15,19 @@ namespace DecisionTree.Tree
         }
         public Constants constants { get; set; }
 
-
+        /// <summary>
+        /// This method builds a decision tree using the
+        /// ID3 method. 
+        /// </summary>
+        /// <param name="set">The training data to build the tree.</param>
+        /// <param name="treeType">The splitting algorithm to use. Can be "gini-index", "information-gain", or "both",</param>
+        /// <returns></returns>
         public Node BuildTree(List<DNARecord> set, string treeType)
         {
             Node node = new Node();
             if (DecisionMath.IsPure(set, constants.PurityRatio))
             {
-                node.leafClass = DecisionMath.GetClass(set, constants.PurityRatio);
+                node.leafClass = DecisionMath.GetClass(set);
                 return node;
             }
 
@@ -41,13 +47,15 @@ namespace DecisionTree.Tree
             {
                 splitIndex = Gini.gini_index(set);
             }
-            else
+            else //inforamtion gain
             {
                 var gains = DecisionMath.InformationGains(set);
                 splitIndex = gains.IndexOf(gains.Max());
             }
             
             node.label = splitIndex;
+            //if we should split based on statistical significance.
+            //is it significant, or just by chance?
             if (DecisionMath.ShouldSplitChiSquared(set, splitIndex, constants.Alpha))
             {
                 foreach (var i in AttributeValues.values)
@@ -59,14 +67,23 @@ namespace DecisionTree.Tree
                     }
                 }
             }
-            node.leafClass = DecisionMath.GetClass(set, constants.PurityRatio);
+            node.leafClass = DecisionMath.GetClass(set);
             return node;
         }
 
+
+        /// <summary>
+        /// Thi function traverses the tree recursively. 
+        /// It uses a DFS style search
+        /// </summary>
+        /// <param name="item">The item you use to search the tree</param>
+        /// <param name="tree">The tree to traverse</param>
+        /// <returns></returns>
         public string TraverseTree(DNARecord item, Node tree)
         {
             if (tree.children.Count == 0)
             {
+                //we hit a leaf, so return the class of the leaf.
                 return tree.leafClass;
             }
             var attibute = item.sequence[tree.label];
@@ -77,10 +94,18 @@ namespace DecisionTree.Tree
             }
             catch (System.ArgumentOutOfRangeException e)
             {
-                return "Could not classify";
+                //take a guess :)
+                return "N";
             }
         }
 
+        /// <summary>
+        /// This function determines the accuracy of your tree
+        /// against training data.
+        /// </summary>
+        /// <param name="data">The training data with classifiers</param>
+        /// <param name="tree">The tree you want to see the accuracy of</param>
+        /// <returns></returns>
         public decimal DetermineAccuracy(List<DNARecord> data, Node tree)
         {
             List<bool> accuracyList = new List<bool>();

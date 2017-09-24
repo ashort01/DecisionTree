@@ -27,7 +27,13 @@ namespace DecisionTree.Tree
             }
             return 0;
         }
-
+        
+        /// <summary>
+        /// Determines Information gain for each attribute based on entropy
+        /// </summary>
+        /// <param name="set"></param>
+        /// <param name="attribute"></param>
+        /// <returns></returns>
         public static double InformationGain(List<DNARecord> set, int attribute)
         {
             if (set.Count > 0)
@@ -44,6 +50,11 @@ namespace DecisionTree.Tree
             return 0;
         }
 
+        /// <summary>
+        /// Loops through data and determines information gains
+        /// </summary>
+        /// <param name="set"></param>
+        /// <returns></returns>
         public static List<double> InformationGains(List<DNARecord> set)
         {
             var sequenceLength = 60;
@@ -55,7 +66,12 @@ namespace DecisionTree.Tree
             return gains;
         }
 
-
+        /// <summary>
+        /// Determines if all the data in the set belongs to one class, at a given ratio.
+        /// </summary>
+        /// <param name="set"></param>
+        /// <param name="acceptanceRatio"></param>
+        /// <returns></returns>
         public static bool IsPure(List<DNARecord> set, double acceptanceRatio)
         {
             foreach (var i in Classifiers.values)
@@ -69,8 +85,12 @@ namespace DecisionTree.Tree
             }
             return false;
         }
-
-        public static string GetClass(List<DNARecord> set, double acceptanceRatio)
+        /// <summary>
+        /// Determines the class of the set of data. based on the highest percentage
+        /// </summary>
+        /// <param name="set"></param>
+        /// <returns></returns>
+        public static string GetClass(List<DNARecord> set)
         {
             List<double> ratios = new List<double>();
             for(int i = 0; i < Classifiers.values.Count(); i++)
@@ -102,7 +122,14 @@ namespace DecisionTree.Tree
             }
             return RejectNull(criticalValue, degreesOfFreedom, alpha);
         }
-
+        /// <summary>
+        /// Utility method for chi squared to determine if we should reject null.
+        /// Is the difference in the data by chance? or is it significant.
+        /// </summary>
+        /// <param name="criticalValue"></param>
+        /// <param name="degreesOfFreedom"></param>
+        /// <param name="alpha"></param>
+        /// <returns></returns>
         private static bool RejectNull(double criticalValue, int degreesOfFreedom, double alpha)
         {
             var tableRow = ChiSquaredData.lookup_table.Where(i => i.DegreesOfFreedom == degreesOfFreedom && i.value == alpha).FirstOrDefault();

@@ -15,6 +15,7 @@ namespace DecisionTree
         static void Main(string[] args)
         {
             var constants = new Constants();
+            //parse arguments
             if (CommandLine.Parser.Default.ParseArguments(args, constants))
             {
                 var data = ReadData("training.csv");
@@ -23,10 +24,11 @@ namespace DecisionTree
                 if (constants.DecisionAlgorithm == "information-gain") Console.WriteLine("Building tree using information gain...");
                 else if (constants.DecisionAlgorithm == "gini-index") Console.WriteLine("Building tree using gini index...");
                 else Console.WriteLine("Building tree with gini and information gain");
-
+                //build tree
                 t = treeService.BuildTree(data, constants.DecisionAlgorithm);
 
                 Console.WriteLine("Traversing Tree...");
+                //traverse tree
                 var i = treeService.DetermineAccuracy(data, t);
                 Console.WriteLine("Our tree was " + i + "% accurate!");
 
