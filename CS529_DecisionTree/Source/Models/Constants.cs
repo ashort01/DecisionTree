@@ -12,7 +12,6 @@ namespace DecisionTree.Models
         private double alpha { get; set; }
         private double purityRatio { get; set; }
         private string decisionAlgorithm { get; set; }
-        private bool show { get; set; }
 
         [Option('a', "alpha", HelpText = "Alpha confidence value for chi squared pruning", DefaultValue = .05)]
         public double Alpha
@@ -32,20 +31,6 @@ namespace DecisionTree.Models
                     Console.WriteLine("Invalid alpha, using default alpha of .05. Please use one of the following alphas: " + ChiSquaredData.lookup_table.Select(i => i.value).ToString());
                     alpha = .05;
                 }
-            }
-
-        }
-
-        [Option('s', "show", HelpText = "print out tree display", DefaultValue = false)]
-        public bool Show
-        {
-            get
-            {
-                return show;
-            }
-            set
-            {
-                show = value;
             }
 
         }

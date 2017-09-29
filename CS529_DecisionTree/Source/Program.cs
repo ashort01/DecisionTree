@@ -44,10 +44,6 @@ namespace DecisionTree
                     lines[k+1] = data[k].id + "," + c;
                 }
                 System.IO.File.WriteAllLines(@"Data\results.csv", lines);
-                if(constants.Show)
-                {
-                    TreeService.DrawTree(t, "", ' ');
-                }
 
             }
             else
